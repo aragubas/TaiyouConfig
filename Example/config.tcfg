@@ -1,0 +1,10 @@
+#!TCFG
+@include 
+version:TaiyouConfigVersion=2.0
+
+$namespace ConsoleOutput
+	bool:PrintCeira=True
+	bool:PrintSinas=False
+	bool:PrintMarckExemplos=True
+
+$end
