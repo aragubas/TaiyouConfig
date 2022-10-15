@@ -7,7 +7,7 @@ namespace TaiyouConfig::Linker
 	class UnmanagedNamespace
 	{
 	public:
-		std::vector<TaiyouConfig::TcfgUnit>
+		//std::vector<TaiyouConfig::TcfgUnit>
 		UnmanagedNamespace();
 
 	};

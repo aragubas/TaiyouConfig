@@ -5,7 +5,7 @@ VisualStudioVersion = 17.3.32922.545
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TaiyouConfig", "TaiyouConfig\TaiyouConfig.vcxproj", "{44968828-B0E7-42E2-B9D8-A974B6917854}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MarckExample", "Example\Example.vcxproj", "{B5857BE3-CFB2-418E-A735-14BEAB8CD09A}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MarckExample", "MarckExample\MarckExample.vcxproj", "{B5857BE3-CFB2-418E-A735-14BEAB8CD09A}"
 	ProjectSection(ProjectDependencies) = postProject
 		{44968828-B0E7-42E2-B9D8-A974B6917854} = {44968828-B0E7-42E2-B9D8-A974B6917854}
 	EndProjectSection
