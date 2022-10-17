@@ -1,0 +1,7 @@
+#!TCFG
+string:AudioDevice=Eletreto
+string:AudioDevice=Eletreto
+
+$namespace ConsoleOutput
+	bool:PrintMarckExemplos=True
+$end

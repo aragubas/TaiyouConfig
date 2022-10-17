@@ -1,18 +1,23 @@
 #include <iostream>
 #include "KeysStore.hpp"
 #include "Utils.hpp"
+#include "Linker/UncompiledNamespace.hpp"
+#include "Linker/Link.hpp"
+
+using namespace TaiyouConfig;
 
 int main(int agrc, const char* argv[])
 {
-	std::string mainSource = TaiyouConfig::FetchTCFG("./config.tcfg");
-	TaiyouConfig::TcfgUnit unit = TaiyouConfig::TokenizeTcfg(mainSource);
+	std::string mainSource = FetchTCFG("./mainconfig.tcfg");
+	TcfgUnit mainUnit = TokenizeTcfg(mainSource);
 
-	for (int i = 0; i < unit.Blocks.size(); i++)
-	{
-		std::cout << unit.Blocks[i].Value << std::endl;
-	}
+	std::string ceiraSource = FetchTCFG("./ceira.tcfg");
+	TcfgUnit ceiraUnit = TokenizeTcfg(ceiraSource);
 
-	TaiyouConfig::KeysStore keysStore;
+
+	std::vector<TcfgUnit> units{ mainUnit, ceiraUnit };
+
+	std::vector<Linker::UncompiledNamespace> Namespaces = Linker::LinkUnits(units);
 
 
 	std::cout << "Ready" << std::endl;

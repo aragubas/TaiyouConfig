@@ -1,10 +1,7 @@
 #!TCFG
-@include 
-version:TaiyouConfigVersion=2.0
+string:CeiraDoSinas=Caldo de Pilha
 
 $namespace ConsoleOutput
 	bool:PrintCeira=True
 	bool:PrintSinas=False
-	bool:PrintMarckExemplos=True
-
 $end

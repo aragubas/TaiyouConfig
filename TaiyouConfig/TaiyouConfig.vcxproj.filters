@@ -18,19 +18,19 @@
     <ClCompile Include="src\Utils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Token\BlockDeclaration.cpp">
+    <ClCompile Include="src\Token\NamespaceDeclaration.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Token\UnparsedKey.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\TcfgUnit.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\KeysStore.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Linker\UnmanagedNamespace.cpp">
+    <ClCompile Include="src\Linker\UncompiledNamespace.hpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Linker\Link.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -38,7 +38,7 @@
     <ClInclude Include="src\Utils.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Token\BlockDeclaration.hpp">
+    <ClInclude Include="src\Token\NamespaceDeclaration.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Token\UnparsedKey.hpp">
@@ -50,7 +50,7 @@
     <ClInclude Include="src\KeysStore.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Linker\UnmanagedNamespace.hpp">
+    <ClInclude Include="src\Linker\Link.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

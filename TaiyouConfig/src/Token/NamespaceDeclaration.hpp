@@ -5,14 +5,13 @@
 
 namespace TaiyouConfig::Token
 {
-	class BlockDeclaration
+	struct NamespaceDeclaration
 	{
-	public:
 		std::string Type;
 		std::string Value;
 		std::vector<UnparsedKey> InnerTokens;
 
-		BlockDeclaration(const char type[], const char value[]);
+		NamespaceDeclaration(const char type[], const char value[]);
 	};
 }
 

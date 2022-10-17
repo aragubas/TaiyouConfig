@@ -11,6 +11,7 @@ namespace TaiyouConfig::Token
 		std::string Value;
 
 		UnparsedKey(const char type[], const char name[], const char value[]);
+		UnparsedKey();
 	};
 }
 

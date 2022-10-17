@@ -159,7 +159,10 @@
     <ClCompile Include="src\Program.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="config.tcfg">
+    <None Include="ceira.tcfg">
+      <DeploymentContent>true</DeploymentContent>
+    </None>
+    <None Include="mainconfig.tcfg">
       <DeploymentContent>true</DeploymentContent>
     </None>
   </ItemGroup>

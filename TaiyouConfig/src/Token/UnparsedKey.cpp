@@ -8,4 +8,10 @@ namespace TaiyouConfig::Token
 		Name = name;
 		Value = value;
 	}
+    UnparsedKey::UnparsedKey()
+    {
+		Type = "";
+		Name = "";
+		Value = "";
+    }
 }

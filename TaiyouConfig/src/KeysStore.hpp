@@ -9,6 +9,5 @@ namespace TaiyouConfig
 		KeysStore();
 
 	};
-
 }
 

@@ -42,7 +42,7 @@ namespace TaiyouConfig
 		return entireCfgFile;
 	}
 
-	TcfgUnit TaiyouConfig::TokenizeTcfg(std::string source)
+	TcfgUnit TokenizeTcfg(std::string source)
 	{
 		bool commentLineLatch = false;
 		bool blockLatch = false;
@@ -57,7 +57,7 @@ namespace TaiyouConfig
 		std::string keyValue = "";
 		std::vector<TaiyouConfig::Token::UnparsedKey> globalNamespace;
 		std::vector<TaiyouConfig::Token::UnparsedKey> blockBuffer;
-		std::vector<TaiyouConfig::Token::BlockDeclaration> blocks;
+		std::vector<TaiyouConfig::Token::NamespaceDeclaration> namespaces;
 
 		for (int i = 0; i < source.length(); i++)
 		{
@@ -103,9 +103,9 @@ namespace TaiyouConfig
 #endif
 							if (namespaceBlockLatch)
 							{
-								blocks[blocks.size() - 1].InnerTokens = blockBuffer;
+								namespaces[namespaces.size() - 1].InnerTokens = blockBuffer;
 #ifdef VERBOSE
-								std::cout << "||Assigned " << blockBuffer.size() << " tokens to block (" << blocks[blocks.size() - 1].Type << ", " << blocks[blocks.size() - 1].Value << ")" << std::endl << std::endl;
+								std::cout << "||Assigned " << blockBuffer.size() << " tokens to block (" << namespaces[namespaces.size() - 1].Type << ", " << namespaces[namespaces.size() - 1].Value << ")" << std::endl << std::endl;
 #endif
 								// Reset state
 								blockBuffer.clear();
@@ -143,7 +143,7 @@ namespace TaiyouConfig
 #ifdef VERBOSE
 						std::cout << "->Block type(" << blockType << ") value(" << blockValue << ")" << std::endl;
 #endif
-						blocks.push_back(TaiyouConfig::Token::BlockDeclaration(blockType.c_str(), blockValue.c_str()));
+						namespaces.push_back(TaiyouConfig::Token::NamespaceDeclaration(blockType.c_str(), blockValue.c_str()));
 
 						blockValue = "";
 						blockType = "";
@@ -222,8 +222,7 @@ namespace TaiyouConfig
 		}
 
 		TcfgUnit returnUnit;
-		returnUnit.BlockBuffer = blockBuffer;
-		returnUnit.Blocks = blocks;
+		returnUnit.Namespaces = namespaces;
 		returnUnit.GlobalNamespace = globalNamespace;
 
 #ifdef _DEBUG
@@ -235,7 +234,7 @@ namespace TaiyouConfig
 		std::cout << std::endl;
 		std::cout << "Compilation Finished";
 		std::cout << "Found " << globalNamespace.size() << " keys in GLOBAL namespace" << std::endl;
-		std::cout << "Found " << blocks.size() << " block" << std::endl << std::endl;
+		std::cout << "Found " << namespaces.size() << " block" << std::endl << std::endl;
 
 		std::cout << ">Global Namespace" << std::endl;
 		for (int i = 0; i < globalNamespace.size(); i++)
@@ -243,13 +242,13 @@ namespace TaiyouConfig
 			std::cout << "Key: type(" << globalNamespace[i].Type << ") name(" << globalNamespace[i].Name << ") value(" << globalNamespace[i].Value << ")" << std::endl;
 		}
 
-		for (int i = 0; i < blocks.size(); i++)
+		for (int i = 0; i < namespaces.size(); i++)
 		{
-			std::cout << std::endl << "->Block type(" << blocks[i].Type << ") value(" << blocks[i].Value << ")" << std::endl;
+			std::cout << std::endl << "->Block type(" << namespaces[i].Type << ") value(" << namespaces[i].Value << ")" << std::endl;
 
-			for (int key = 0; key < blocks[i].InnerTokens.size(); key++)
+			for (int key = 0; key < namespaces[i].InnerTokens.size(); key++)
 			{
-				std::cout << "  Key: type(" << blocks[i].InnerTokens[key].Type << ") name(" << blocks[i].InnerTokens[key].Name << ") value(" << blocks[i].InnerTokens[key].Value << ")" << std::endl;
+				std::cout << "  Key: type(" << namespaces[i].InnerTokens[key].Type << ") name(" << namespaces[i].InnerTokens[key].Name << ") value(" << namespaces[i].InnerTokens[key].Value << ")" << std::endl;
 			}
 		}
 #endif
@@ -257,5 +256,11 @@ namespace TaiyouConfig
 
 		return returnUnit;
 	}
+
+	std::string ToString(Token::UnparsedKey unparsedKey)
+	{
+		return unparsedKey.Type + ":" + unparsedKey.Name + "=" + unparsedKey.Value;
+	}
+
 }
 
