@@ -34,10 +34,6 @@ namespace TaiyouConfig::Linker
 							Token::UnparsedKey currentKey = declaration.InnerTokens[key];
 
 							allNamespaces[ceira].InnerTokens.push_back(currentKey);
-
-#ifdef _DEBUG
-							std::cout << "Link-Merge; " << allNamespaces[ceira].Value << ": " << ToString(currentKey) << std::endl;
-#endif
 						}
 
 						namespacesMerged = true;
@@ -61,17 +57,12 @@ namespace TaiyouConfig::Linker
 				// Key not found, add to the list
 				if (allGlobalyDefinedKeys.find(keyName) == allGlobalyDefinedKeys.end())
 				{
-					allGlobalyDefinedKeys[keyName] = key;
-#ifdef _DEBUG
-					std::cout << "Link-Global; GlobalKey: " << ToString(key) << std::endl;
-#endif
+					allGlobalyDefinedKeys[keyName] = key;				
 				}
 				else
 				{
 					// Duplicate key found
-#ifdef _DEBUG
-					std::cout << "Link-Global; Duplicate key found: " << ToString(key) << std::endl;
-#endif
+					// TODO; Linker error: Duplicate key found
 				}
 
 			}
@@ -86,6 +77,9 @@ namespace TaiyouConfig::Linker
 			returnUnit.GlobalKeys.push_back(it->second);
 		}
 
+#ifdef _DEBUG
+		std::cout << ">>Linker Finished" << std::endl;
+#endif
 
 
 		return returnUnit;

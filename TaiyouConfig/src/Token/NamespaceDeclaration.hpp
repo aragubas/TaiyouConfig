@@ -7,11 +7,8 @@ namespace TaiyouConfig::Token
 {
 	struct NamespaceDeclaration
 	{
-		std::string Type;
-		std::string Value;
+		std::string Name;
 		std::vector<UnparsedKey> InnerTokens;
-
-		NamespaceDeclaration(const char type[], const char value[]);
 	};
 }
 

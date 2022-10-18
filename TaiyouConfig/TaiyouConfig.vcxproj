@@ -133,8 +133,6 @@
   <ItemGroup>
     <ClCompile Include="src\KeysStore.cpp" />
     <ClCompile Include="src\Linker\Link.cpp" />
-    <ClCompile Include="src\Token\NamespaceDeclaration.cpp" />
-    <ClCompile Include="src\Token\UnparsedKey.cpp" />
     <ClCompile Include="src\Utils.cpp" />
     <ClCompile Include="src\Linker\UncompiledNamespace.hpp" />
   </ItemGroup>

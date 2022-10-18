@@ -2,10 +2,11 @@
 #include <filesystem>
 #include <fstream>
 
-#define VERBOSE
+using namespace TaiyouConfig::Token;
 
 namespace TaiyouConfig
 {
+	// Validates and loads source file TCFG
 	std::string FetchTCFG(const char path[])
 	{
 		std::fstream cfgFile;
@@ -14,7 +15,8 @@ namespace TaiyouConfig
 		
 		if (cfgFile.fail())
 		{
-			std::cerr << "ERROR; TaiyouConfig: Could not read TCFG File \"" << path << "\"" << std::endl;
+			// TODO: Throw a custom error
+			//std::cerr << "ERROR; TaiyouConfig: Could not read TCFG File \"" << path << "\"" << std::endl;
 			throw std::runtime_error("Could not read TCFG file \"" + std::string(path) + "\"");
 		}
 
@@ -26,7 +28,8 @@ namespace TaiyouConfig
 			{
 				if (line != "#!TCFG")
 				{
-					std::cerr << "TaiyouConfig: Invalid TCFG File \"" << path << "\", TCFG Header not found" << std::endl;
+					// TODO: Throw a custom error
+					//std::cerr << "TaiyouConfig: Invalid TCFG File \"" << path << "\", TCFG Header not found" << std::endl;
 					return "";
 				}
 
@@ -42,6 +45,7 @@ namespace TaiyouConfig
 		return entireCfgFile;
 	}
 
+	// Tokenizes TCFG source file
 	TcfgUnit TokenizeTcfg(std::string source)
 	{
 		bool commentLineLatch = false;
@@ -98,14 +102,21 @@ namespace TaiyouConfig
 					{
 						if (blockType == "end")
 						{
-#ifdef VERBOSE
-							std::cout << ">End Block" << std::endl;
+#ifdef _DEBUG
+							std::string name = "Unknown Block";
+
+							if (namespaceBlockLatch)
+							{
+								name = "Namespace";
+							}
+
+							std::cout << "->End " << name << std::endl;
 #endif
 							if (namespaceBlockLatch)
 							{
 								namespaces[namespaces.size() - 1].InnerTokens = blockBuffer;
-#ifdef VERBOSE
-								std::cout << "||Assigned " << blockBuffer.size() << " tokens to block (" << namespaces[namespaces.size() - 1].Type << ", " << namespaces[namespaces.size() - 1].Value << ")" << std::endl << std::endl;
+#ifdef _DEBUG
+								std::cout << "||Assigned " << blockBuffer.size() << " tokens to Namespace \"" + namespaces[namespaces.size() - 1].Name + "\"" << std::endl;
 #endif
 								// Reset state
 								blockBuffer.clear();
@@ -138,13 +149,21 @@ namespace TaiyouConfig
 						{
 							currentNamespace = blockValue;
 							namespaceBlockLatch = true;
-						}
-
-#ifdef VERBOSE
-						std::cout << "->Block type(" << blockType << ") value(" << blockValue << ")" << std::endl;
+							
+							namespaces.push_back(NamespaceDeclaration(blockValue.c_str()));
+#ifdef _DEBUG
+							std::cout << "->Namespace \"" << blockValue << "\"" << std::endl;
 #endif
-						namespaces.push_back(TaiyouConfig::Token::NamespaceDeclaration(blockType.c_str(), blockValue.c_str()));
+						} else
+						{
+							// TODO; Throw an error: Invalid block type
+#ifdef _DEBUG
+							std::cout << ">>Error: Invalid block type \"" << blockType << "\"" << std::endl;
+#endif
+						}
+						
 
+						// Reset State
 						blockValue = "";
 						blockType = "";
 						blockDepth = 0;
@@ -190,19 +209,21 @@ namespace TaiyouConfig
 				{
 					keyDepth = 0;
 
+					UnparsedKey newKey = UnparsedKey(keyType.c_str(), keyName.c_str(), keyValue.c_str());
+
 					if (currentNamespace == "GLOBAL")
 					{
-						globalNamespace.push_back(TaiyouConfig::Token::UnparsedKey(keyType.c_str(), keyName.c_str(), keyValue.c_str()));
-#ifdef VERBOSE
-						std::cout << "Key: type(" << keyType << ") name(" << keyName << ") value(" << keyValue << "); GLOBAL" << std::endl;
-#endif					
+						globalNamespace.push_back(newKey);
+#ifdef _DEBUG
+						std::cout << "Key: " << ToString(newKey) << "; GLOBAL" << std::endl;
+#endif
 					}
 					else
 					{
-						// TODO: Assign token to currrent namespace
-						blockBuffer.push_back(TaiyouConfig::Token::UnparsedKey(keyType.c_str(), keyName.c_str(), keyValue.c_str()));
-#ifdef VERBOSE
-						std::cout << "  Key: type(" << keyType << ") name(" << keyName << ") value(" << keyValue << "); " << currentNamespace << std::endl;
+						// TODO: Assign token to currrent namespace					
+						blockBuffer.push_back(newKey);
+#ifdef _DEBUG
+						std::cout << "  Key: "<< ToString(newKey) << "; " << currentNamespace << std::endl;
 #endif
 					}
 
@@ -232,35 +253,22 @@ namespace TaiyouConfig
 		}
 
 		std::cout << std::endl;
-		std::cout << "Compilation Finished";
+		std::cout << ">>Tokenization Finished" << std::endl;
 		std::cout << "Found " << globalNamespace.size() << " keys in GLOBAL namespace" << std::endl;
-		std::cout << "Found " << namespaces.size() << " block" << std::endl << std::endl;
-
-		std::cout << ">Global Namespace" << std::endl;
-		for (int i = 0; i < globalNamespace.size(); i++)
-		{
-			std::cout << "Key: type(" << globalNamespace[i].Type << ") name(" << globalNamespace[i].Name << ") value(" << globalNamespace[i].Value << ")" << std::endl;
-		}
-
-		for (int i = 0; i < namespaces.size(); i++)
-		{
-			std::cout << std::endl << "->Block type(" << namespaces[i].Type << ") value(" << namespaces[i].Value << ")" << std::endl;
-
-			for (int key = 0; key < namespaces[i].InnerTokens.size(); key++)
-			{
-				std::cout << "  Key: type(" << namespaces[i].InnerTokens[key].Type << ") name(" << namespaces[i].InnerTokens[key].Name << ") value(" << namespaces[i].InnerTokens[key].Value << ")" << std::endl;
-			}
-		}
+		std::cout << "Found " << namespaces.size() << " namespace declarations" << std::endl << std::endl;
 #endif
 
 
 		return returnUnit;
 	}
 
+#ifdef _DEBUG
+	// Converts UnparsedKey to human-readable string
 	std::string ToString(Token::UnparsedKey unparsedKey)
 	{
-		return unparsedKey.Type + ":" + unparsedKey.Name + "=" + unparsedKey.Value;
+		return "\"" + unparsedKey.Type + ":" + unparsedKey.Name + "=" + unparsedKey.Value + "\"";
 	}
+#endif
 
 }
 
