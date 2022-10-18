@@ -21,22 +21,8 @@ namespace TaiyouConfig
 		}
 
 		std::string line;
-		bool headerValidation = true;
 		while (std::getline(cfgFile, line))
 		{
-			if (headerValidation)
-			{
-				if (line != "#!TCFG")
-				{
-					// TODO: Throw a custom error
-					//std::cerr << "TaiyouConfig: Invalid TCFG File \"" << path << "\", TCFG Header not found" << std::endl;
-					return "";
-				}
-
-				headerValidation = false;
-				continue;
-			}
-
 			entireCfgFile += line + "\n";
 		}
 

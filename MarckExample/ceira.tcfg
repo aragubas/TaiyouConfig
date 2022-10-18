@@ -1,4 +1,3 @@
-#!TCFG
 string:AudioDevice=Eletreto
 
 $namespace ConsoleOutput
