@@ -20,7 +20,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="mainconfig.tcfg" />
-    <None Include="ceira.tcfg" />
+    <CopyFileToFolders Include="mainconfig.tcfg" />
+    <CopyFileToFolders Include="ceira.tcfg" />
   </ItemGroup>
 </Project>

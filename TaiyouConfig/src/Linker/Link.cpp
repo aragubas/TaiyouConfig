@@ -26,7 +26,7 @@ namespace TaiyouConfig::Linker
 				for (int ceira = 0; ceira < allNamespaces.size(); ceira++)
 				{
 					// Merge namespaces of the same name
-					if (allNamespaces[ceira].Value == declaration.Value)
+					if (allNamespaces[ceira].Name == declaration.Name)
 					{
 						// Merge the two namespaces togheder
 						for (int key = 0; key < declaration.InnerTokens.size(); key++)

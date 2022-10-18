@@ -82,12 +82,12 @@
     <SourcePath>$(SolutionDir)TaiyouConfig\src;$(SourcePath)</SourcePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <LibraryPath>$(SolutionDir)\$(Platform)\$(Configuration)\;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(SolutionDir)$(Platform)\$(Configuration)\;$(LibraryPath)</LibraryPath>
     <IncludePath>$(SolutionDir)TaiyouConfig\src;$(IncludePath)</IncludePath>
     <SourcePath>$(SolutionDir)TaiyouConfig\src;$(SourcePath)</SourcePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <LibraryPath>$(SolutionDir)\$(Platform)\$(Configuration)\;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(SolutionDir)$(Platform)\$(Configuration)\;$(LibraryPath)</LibraryPath>
     <IncludePath>$(SolutionDir)TaiyouConfig\src;$(IncludePath)</IncludePath>
     <SourcePath>$(SolutionDir)TaiyouConfig\src;$(SourcePath)</SourcePath>
   </PropertyGroup>
@@ -159,12 +159,14 @@
     <ClCompile Include="src\Program.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="ceira.tcfg">
+    <CopyFileToFolders Include="ceira.tcfg">
       <DeploymentContent>true</DeploymentContent>
-    </None>
-    <None Include="mainconfig.tcfg">
+      <FileType>Document</FileType>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="mainconfig.tcfg">
       <DeploymentContent>true</DeploymentContent>
-    </None>
+      <FileType>Document</FileType>
+    </CopyFileToFolders>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
