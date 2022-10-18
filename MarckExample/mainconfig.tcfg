@@ -1,5 +1,6 @@
 #!TCFG
 string:CeiraDoSinas=Caldo de Pilha
+string:AudioDevice=Eletreto
 
 $namespace ConsoleOutput
 	bool:PrintCeira=True

@@ -6,11 +6,12 @@
 
 namespace TaiyouConfig::Linker
 {
-	std::vector<UncompiledNamespace> LinkUnits(std::vector<TcfgUnit> &units)
+	LinkedTcfgUnit LinkUnits(std::vector<TcfgUnit> &units)
 	{
 		std::vector<Token::NamespaceDeclaration> allNamespaces;
 		//std::vector<Token::UnparsedKey> allGlobalyDefinedKeys;
 		// Key: <type>:<name>
+		typedef std::map<std::string, Token::UnparsedKey> globalKeysMapType;
 		std::map<std::string, Token::UnparsedKey> allGlobalyDefinedKeys;
 
 		for (int i = 0; i < units.size(); i++)
@@ -33,6 +34,10 @@ namespace TaiyouConfig::Linker
 							Token::UnparsedKey currentKey = declaration.InnerTokens[key];
 
 							allNamespaces[ceira].InnerTokens.push_back(currentKey);
+
+#ifdef _DEBUG
+							std::cout << "Link-Merge; " << allNamespaces[ceira].Value << ": " << ToString(currentKey) << std::endl;
+#endif
 						}
 
 						namespacesMerged = true;
@@ -57,20 +62,32 @@ namespace TaiyouConfig::Linker
 				if (allGlobalyDefinedKeys.find(keyName) == allGlobalyDefinedKeys.end())
 				{
 					allGlobalyDefinedKeys[keyName] = key;
-					std::cout << "GlobalKey: " << ToString(key) << std::endl;
-
+#ifdef _DEBUG
+					std::cout << "Link-Global; GlobalKey: " << ToString(key) << std::endl;
+#endif
 				}
 				else
 				{
 					// Duplicate key found
-					std::cout << "Duplicate key found: " << ToString(key) << std::endl;
+#ifdef _DEBUG
+					std::cout << "Link-Global; Duplicate key found: " << ToString(key) << std::endl;
+#endif
 				}
 
 			}
 
 		}
 
+		LinkedTcfgUnit returnUnit;
+		returnUnit.Namespaces = allNamespaces;
+		// Builds the list of global keys
+		for (globalKeysMapType::const_iterator it = allGlobalyDefinedKeys.begin(); it != allGlobalyDefinedKeys.end(); ++it)
+		{
+			returnUnit.GlobalKeys.push_back(it->second);
+		}
 
-		return std::vector<UncompiledNamespace>();
+
+
+		return returnUnit;
 	}
 }

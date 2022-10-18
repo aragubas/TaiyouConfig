@@ -17,7 +17,7 @@ int main(int agrc, const char* argv[])
 
 	std::vector<TcfgUnit> units{ mainUnit, ceiraUnit };
 
-	std::vector<Linker::UncompiledNamespace> Namespaces = Linker::LinkUnits(units);
+	TaiyouConfig::Linker::LinkedTcfgUnit Namespaces = Linker::LinkUnits(units);
 
 
 	std::cout << "Ready" << std::endl;

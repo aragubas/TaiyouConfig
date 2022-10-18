@@ -53,5 +53,8 @@
     <ClInclude Include="src\Linker\Link.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Linker\LinkedTcfgUnit.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

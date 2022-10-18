@@ -1,8 +1,9 @@
 #pragma once
 #include <vector>
 #include "UncompiledNamespace.hpp"
+#include "LinkedTcfgUnit.hpp"
 
 namespace TaiyouConfig::Linker
 {
-	std::vector<UncompiledNamespace> LinkUnits(std::vector<TcfgUnit> &units);
+	LinkedTcfgUnit LinkUnits(std::vector<TcfgUnit> &units);
 }

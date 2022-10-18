@@ -139,6 +139,7 @@
     <ClCompile Include="src\Linker\UncompiledNamespace.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Linker\LinkedTcfgUnit.hpp" />
     <ClInclude Include="src\KeysStore.hpp" />
     <ClInclude Include="src\Linker\Link.hpp" />
     <ClInclude Include="src\Token\NamespaceDeclaration.hpp" />
