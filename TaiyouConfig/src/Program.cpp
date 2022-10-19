@@ -31,7 +31,7 @@ int main(int agrc, const char* argv[])
 	// Version
 	binaryFile.push_back(1); // Major Revision
 	binaryFile.push_back(0); // Minor Revision
-
+ 
 	// Padding
 	//for (int i = 0; i < 4 << i++;)
 	//	header.push_back(0);
