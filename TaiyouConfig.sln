@@ -5,11 +5,6 @@ VisualStudioVersion = 17.3.32922.545
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TaiyouConfig", "TaiyouConfig\TaiyouConfig.vcxproj", "{44968828-B0E7-42E2-B9D8-A974B6917854}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MarckExample", "MarckExample\MarckExample.vcxproj", "{B5857BE3-CFB2-418E-A735-14BEAB8CD09A}"
-	ProjectSection(ProjectDependencies) = postProject
-		{44968828-B0E7-42E2-B9D8-A974B6917854} = {44968828-B0E7-42E2-B9D8-A974B6917854}
-	EndProjectSection
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -26,14 +21,6 @@ Global
 		{44968828-B0E7-42E2-B9D8-A974B6917854}.Release|x64.Build.0 = Release|x64
 		{44968828-B0E7-42E2-B9D8-A974B6917854}.Release|x86.ActiveCfg = Release|Win32
 		{44968828-B0E7-42E2-B9D8-A974B6917854}.Release|x86.Build.0 = Release|Win32
-		{B5857BE3-CFB2-418E-A735-14BEAB8CD09A}.Debug|x64.ActiveCfg = Debug|x64
-		{B5857BE3-CFB2-418E-A735-14BEAB8CD09A}.Debug|x64.Build.0 = Debug|x64
-		{B5857BE3-CFB2-418E-A735-14BEAB8CD09A}.Debug|x86.ActiveCfg = Debug|Win32
-		{B5857BE3-CFB2-418E-A735-14BEAB8CD09A}.Debug|x86.Build.0 = Debug|Win32
-		{B5857BE3-CFB2-418E-A735-14BEAB8CD09A}.Release|x64.ActiveCfg = Release|x64
-		{B5857BE3-CFB2-418E-A735-14BEAB8CD09A}.Release|x64.Build.0 = Release|x64
-		{B5857BE3-CFB2-418E-A735-14BEAB8CD09A}.Release|x86.ActiveCfg = Release|Win32
-		{B5857BE3-CFB2-418E-A735-14BEAB8CD09A}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
