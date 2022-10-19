@@ -1,12 +1,11 @@
 # Taiyou Config
 TaiyouConfig is a simple and easy to use file format for storing data
 
-Structure
-* Namespace
-  * KeyName
-    * Value
-
 This project contains the compiler and runtime library (soon)
+
+## Data Structure:
+Namespace->Type->KeyName
+
  
 ## Source File
 Syntax for a `.tcfg` file:
