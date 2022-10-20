@@ -44,6 +44,7 @@ namespace TaiyouConfig::Builder
 			return -1;
 		}
 
+		std::cerr << "Builder: --> \"" << outputFileName << "\"" << std::endl;
 
 		return 0;
 	}

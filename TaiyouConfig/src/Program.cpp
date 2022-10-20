@@ -1,96 +1,43 @@
 #include <iostream>
-#include <fstream>
+#include <filesystem>
 #include "Utils.hpp"
-#include "Linker/UncompiledNamespace.hpp"
 #include "Linker/Link.hpp"
-#include <bitset>
 #include "Builder.h"
 
 using namespace TaiyouConfig;
-
+using std::filesystem::recursive_directory_iterator;
+ 
 int main(int agrc, const char* argv[])
 {
-	std::string mainSource = FetchTCFG("./mainconfig.tcfg");
-	TcfgUnit mainUnit = TokenizeTcfg(mainSource);
+	std::vector<std::string> inputFiles;
+	std::vector<TcfgUnit> compilationUnits;
+	std::string outputFileName = "./out.tcb";
 
-	std::string ceiraSource = FetchTCFG("./ceira.tcfg");
-	TcfgUnit ceiraUnit = TokenizeTcfg(ceiraSource);
+	// No arguments provided, automatic mode
+	if (agrc == 1)
+	{
+		for (const std::filesystem::directory_entry& file : recursive_directory_iterator("./"))
+		{
+			if (file.path().extension() == ".tcfg")
+			{
+				inputFiles.push_back(file.path().generic_string());
+			}
+		}
+	}
+	else
+	{
+		throw std::runtime_error("Input file list not implemented yet.");
+	}
 
-	std::vector<TcfgUnit> units{ mainUnit, ceiraUnit };
+	for (int i = 0; i < inputFiles.size(); i++)
+	{
+		std::string source = FetchTCFG(inputFiles[i].c_str());
+		compilationUnits.push_back(TokenizeTcfg(source));
+	}
 
-	TaiyouConfig::Linker::LinkedTcfgUnit LinkedUnits = Linker::LinkUnits(units);
+	TaiyouConfig::Linker::LinkedTcfgUnit LinkedUnits = Linker::LinkUnits(compilationUnits);
 
-	int buildResult = TaiyouConfig::Builder::Build(&LinkedUnits, "./out.tcb");
+	int buildResult = TaiyouConfig::Builder::Build(&LinkedUnits, outputFileName.c_str());
 
 	return 0;
 }
-
-//std::vector<char> binaryFile;
-
-//// Magic Number 
-//binaryFile.push_back('T');
-//binaryFile.push_back('C');
-//binaryFile.push_back('B');
-//
-//// Version
-//binaryFile.push_back(1); // Major Revision
-//binaryFile.push_back(0); // Minor Revision
-//
-   //// Padding
-   ////for (int i = 0; i < 4 << i++;)
-   ////	header.push_back(0);
-
-   //// Control Keyword: Global Namespace
-   //binaryFile.push_back(0x69);
-   //
-   //// Convert all keys in global namespace to binary
-   //for (int i = 0; i < LinkedUnits.GlobalKeys.size(); i++)
-   //{
-   //	TaiyouConfig::Token::UnparsedKey key = LinkedUnits.GlobalKeys[i];
-
-   //	// Control Keyword: Declaring Key
-   //	binaryFile.push_back(0x42);
-   //	
-   //	// Key Type		
-   //	for (int ch = 0; ch < key.Type.size(); ch++)
-   //	{
-   //		binaryFile.push_back(key.Type[ch]);
-   //	}
-   //	binaryFile.push_back('\0');
-
-   //	// Key Name
-   //	for (int ch = 0; ch < key.Name.size(); ch++)
-   //	{
-   //		binaryFile.push_back(key.Name[ch]);
-   //	}
-   //	binaryFile.push_back('\0');
-
-   //	// Key Value
-   //	for (int ch = 0; ch < key.Value.size(); ch++)
-   //	{
-   //		binaryFile.push_back(key.Value[ch]);
-   //	}
-   //	binaryFile.push_back('\0');
-   //}
-
-   //std::ofstream stream("./out.tcb", std::ios::out | std::ios::binary);
-   //if (!stream)
-   //{
-   //	std::cerr << "Could not open output file." << std::endl;
-   //	return -1;
-   //}
-
-   //for (int i = 0; i < binaryFile.size(); i++)
-   //{
-   //	stream.write((char*)&binaryFile[i], sizeof(char));
-   //}
-
-   //stream.close();
-
-   //if (!stream.good())
-   //{
-   //	std::cerr << "Could not write output file." << std::endl;
-   //	return -1;
-   //}
-
-   //std::cout << ceira << std::endl;
