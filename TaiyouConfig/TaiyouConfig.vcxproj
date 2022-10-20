@@ -131,15 +131,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\KeysStore.cpp" />
+    <ClCompile Include="src\Builder.cpp" />
     <ClCompile Include="src\Linker\Link.cpp" />
     <ClCompile Include="src\Program.cpp" />
     <ClCompile Include="src\Utils.cpp" />
     <ClCompile Include="src\Linker\UncompiledNamespace.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Builder.h" />
     <ClInclude Include="src\Linker\LinkedTcfgUnit.hpp" />
-    <ClInclude Include="src\KeysStore.hpp" />
     <ClInclude Include="src\Linker\Link.hpp" />
     <ClInclude Include="src\Token\NamespaceDeclaration.hpp" />
     <ClInclude Include="src\Token\UnparsedKey.hpp" />

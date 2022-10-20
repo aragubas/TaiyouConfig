@@ -1,7 +1,6 @@
-string:CeiraDoSinas=Caldo de Pilha
-string:AudioDevice=Eletreto
+string:DataDir=./Data/
 
-$namespace ConsoleOutput
-	bool:PrintCeira=True
-	bool:PrintSinas=False
+$namespace Graphics
+	bool:Bloom=True
+	bool:Fullscreen=False
 $end

@@ -1,5 +1,5 @@
 string:AudioDevice=Eletreto
 
-$namespace ConsoleOutput
-	bool:PrintMarckExemplos=True
+$namespace Graphics
+	screenResoltion:FullscreenResolution=1366x768
 $end
