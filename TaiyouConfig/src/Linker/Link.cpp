@@ -27,17 +27,41 @@ namespace TaiyouConfig::Linker
 
 				// Check if allNamespaces already have a namespace with the same name
 				bool namespacesMerged = false;
-				for (int ceira = 0; ceira < allNamespaces.size(); ceira++)
+				for (int iAllNamespaces = 0; iAllNamespaces < allNamespaces.size(); iAllNamespaces++)
 				{
 					// Merge namespaces of the same name
-					if (allNamespaces[ceira].Name == declaration.Name)
+					if (allNamespaces[iAllNamespaces].Name == declaration.Name)
 					{
 						// Merge the two namespaces togheder
 						for (int key = 0; key < declaration.InnerTokens.size(); key++)
 						{
 							UnparsedKey currentKey = declaration.InnerTokens[key];
+							bool isKeyDuplicate = false;
 
-							allNamespaces[ceira].InnerTokens.push_back(currentKey);
+
+							// Check if key already exists in allNamespaces
+							for (int innerKeyIndex = 0; innerKeyIndex < allNamespaces[iAllNamespaces].InnerTokens.size(); innerKeyIndex++)
+							{
+								UnparsedKey key = allNamespaces[iAllNamespaces].InnerTokens[innerKeyIndex];
+
+								// Duplicate key found
+								if (key.Type == currentKey.Type && key.Name == currentKey.Name)
+								{
+									isKeyDuplicate = true;
+									break;
+								}
+							}
+
+							if (!isKeyDuplicate)
+							{
+								allNamespaces[iAllNamespaces].InnerTokens.push_back(currentKey);
+							}
+							else
+							{
+								// TODO: Throw duplicate key found exception
+
+							}
+
 						}
 
 						namespacesMerged = true;
@@ -45,7 +69,7 @@ namespace TaiyouConfig::Linker
 					}
 				}
 
-				// Only adds the current namespace if merged
+				// Only adds the current namespace if not merged
 				if (!namespacesMerged)
 				{
 					allNamespaces.push_back(declaration);
