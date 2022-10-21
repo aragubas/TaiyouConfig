@@ -8,7 +8,20 @@ using namespace TaiyouConfig;
 using std::filesystem::recursive_directory_iterator;
 bool VerboseOutput = false;
 
-int main(int agrc, const char* argv[])
+uint8_t OutputFile_Version_Major = 1;
+uint8_t OutputFile_Version_Minor = 0;
+
+void print_help()
+{
+	std::cout << "TaiyouConfigCompiler (TCFG_C) v1.0.0 by Aragubas" << std::endl;
+	std::cout << "Builder file version: " << std::to_string(OutputFile_Version_Major) << "." << std::to_string(OutputFile_Version_Minor) << std::endl;
+
+	std::cout << "Usage: tcfg_c <file1.tcfg> <file2.tcfg> [...]" << std::endl;
+	std::cout << "If no arguments are provided, all .tcfg files in the current working directory and all subfolders will be used as input files" << std::endl;
+
+}
+
+int main(int argc, const char* argv[])
 {
 	// Always enable VerboseOutput in debug builds
 #ifdef _DEBUG
@@ -20,7 +33,7 @@ int main(int agrc, const char* argv[])
 	std::string outputFileName = "./out.tcb";
 
 	// No arguments provided, automatic mode
-	if (agrc == 1)
+	if (argc == 1)
 	{
 		for (const std::filesystem::directory_entry& file : recursive_directory_iterator("./"))
 		{
@@ -30,9 +43,13 @@ int main(int agrc, const char* argv[])
 			}
 		}
 	}
-	else
+	else if (argc == 2)
 	{
-		throw std::runtime_error("Input file list not implemented yet.");
+		if (strcmp(argv[1], "--help") || strcmp(argv[1], "-help") || strcmp(argv[1], "--/?") || strcmp(argv[1], "help"))
+		{
+			print_help();
+			return 0;
+		}
 	}
 
 

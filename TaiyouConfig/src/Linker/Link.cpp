@@ -5,7 +5,6 @@
 #include <iostream>
 
 extern bool VerboseOutput;
-
 using namespace TaiyouConfig::Token;
 
 namespace TaiyouConfig::Linker
@@ -59,7 +58,7 @@ namespace TaiyouConfig::Linker
 							else
 							{
 								// TODO: Throw duplicate key found exception
-
+								std::cout << "Linker; WARNING: Duplicate key found, " << ToString(currentKey) << std::endl;
 							}
 
 						}

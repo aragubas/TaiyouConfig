@@ -3,10 +3,12 @@
 #include <iostream>
 #include <fstream>
 
+using namespace TaiyouConfig::Token;
+using namespace TaiyouConfig::Linker;
+extern uint8_t OutputFile_Version_Major, OutputFile_Version_Minor;
+
 namespace TaiyouConfig::Builder
 {
-	using namespace TaiyouConfig::Token;
-	using namespace TaiyouConfig::Linker;
 
 	int Build(LinkedTcfgUnit linkedUnit[], const char* outputFileName)
 	{
@@ -126,7 +128,7 @@ namespace TaiyouConfig::Builder
 		buffer.push_back('B');
 
 		// Version
-		buffer.push_back(1); // Major Revision
-		buffer.push_back(0); // Minor Revision
+		buffer.push_back(OutputFile_Version_Major); // Major Revision
+		buffer.push_back(OutputFile_Version_Minor); // Minor Revision
 	}
 }
