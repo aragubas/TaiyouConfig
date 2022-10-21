@@ -21,26 +21,32 @@ void print_help()
 	std::cout << "Usage: tcfg_c <file1.tcfg> <file2.tcfg> [...] -out <output file path>" << std::endl;
 	std::cout << "If no arguments are provided, all .tcfg files in the current working directory and all subfolders will be used as input files" << std::endl;
 	std::cout << "  and the output file will be created in the current working directory with the name of \"out.tcb\"" << std::endl;
+
+	std::cout << std::endl;
+
+	std::cout << "-out <file path>          Output file path" << std::endl;
+	std::cout << "-verbose                  Enables verbose output" << std::endl;
 }
 
-int main(int argc, const char* argv[])
+int main(int argc, char* argv[])
 {
 	// Always enable VerboseOutput in debug builds
-#ifdef _DEBUG
-	VerboseOutput = true;
-#endif
+//#ifdef _DEBUG
+//	VerboseOutput = true;
+//#endif
 
 	std::vector<std::string> inputFiles;
 	std::vector<TcfgUnit> compilationUnits;
-	std::string outputFileName = "./out.tcb";
+	std::string outputFileName = "";
 
 	// No arguments provided, automatic mode
 	if (argc == 0 || argc == 1)
-	{
+	{  
 		if (argc == 0)
 		{
 			std::cout << "WARNING: The first argument should contain the working directory of this executable." << std::endl << "  This may result in unexpected behaviour when parsing arguments." << std::endl;
 		}
+
 		for (const std::filesystem::directory_entry& file : recursive_directory_iterator("./"))
 		{
 			if (file.path().extension() == ".tcfg")
@@ -48,17 +54,77 @@ int main(int argc, const char* argv[])
 				inputFiles.push_back(file.path().generic_string());
 			}
 		}
+
+		outputFileName = "./out.tcb";
 	}
-	else if (argc == 2)
+	else if (argc == 2) // Only one argument was provided
 	{
-		if (strcmp(argv[1], "--help") || strcmp(argv[1], "-help") || strcmp(argv[1], "--/?") || strcmp(argv[1], "help"))
+		if (strcmp(argv[1], "--help") || strcmp(argv[1], "-help") || strcmp(argv[1], "/?") || strcmp(argv[1], "help"))
 		{
 			print_help();
 			return 0;
 		}
 	}
-	else
+	else // More than two arguments provided
 	{
+		bool outputSwitch = false;
+		bool inputFile = false;
+
+		// ceira.tcfg -out ceira.out
+		for (int i = 1; i < argc; i++)
+		{
+			std::string argument = argv[i];
+
+			// Argument is a switch
+			if (argument.starts_with("-"))
+			{ 
+				if (argument == "-out")
+				{
+					outputSwitch = true;
+					inputFile = false;
+
+					continue;
+				}
+				else if (argument == "-verbose")
+				{
+					VerboseOutput = true;
+
+					continue;
+				}
+				else
+				{
+					std::cout << "Error; Invalid switch \"" << argument << "\"" << std::endl;
+					return -1;
+				}
+			}
+			else
+			{
+				if (!outputSwitch)
+					inputFile = true;
+			}
+
+			if (inputFile)
+			{
+				inputFiles.push_back(argv[i]);
+			}
+			else if (outputSwitch)
+			{
+				if (outputFileName == "")
+				{
+					outputFileName = argument;
+
+					outputSwitch = false;
+				}
+				else
+				{
+					std::cout << "Error; Output file defined multiple times." << std::endl;
+					return -1;
+				}
+			}
+
+		}
+
+
 		
 	}
 
