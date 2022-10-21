@@ -32,7 +32,7 @@ namespace TaiyouConfig
 	}
 
 	// Tokenizes TCFG source file
-	TcfgUnit TokenizeTcfg(std::string source)
+	TcfgUnit TokenizeTcfg(std::string& source)
 	{
 		bool commentLineLatch = false;
 		bool blockLatch = false;
@@ -45,9 +45,9 @@ namespace TaiyouConfig
 		std::string keyType = "";
 		std::string keyName = "";
 		std::string keyValue = "";
-		std::vector<TaiyouConfig::Token::UnparsedKey> globalNamespace;
-		std::vector<TaiyouConfig::Token::UnparsedKey> blockBuffer;
-		std::vector<TaiyouConfig::Token::NamespaceDeclaration> namespaces;
+		std::vector<UnparsedKey> globalNamespace;
+		std::vector<UnparsedKey> blockBuffer;
+		std::vector<NamespaceDeclaration> namespaces;
 
 		for (int i = 0; i < source.length(); i++)
 		{
@@ -211,7 +211,7 @@ namespace TaiyouConfig
 	}
 
 	// Converts UnparsedKey to human-readable string
-	std::string ToString(Token::UnparsedKey& unparsedKey)
+	std::string ToString(UnparsedKey& unparsedKey)
 	{
 		return "\"" + unparsedKey.Type + ":" + unparsedKey.Name + "=" + unparsedKey.Value + "\"";
 	}

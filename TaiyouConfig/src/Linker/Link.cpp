@@ -1,25 +1,29 @@
 #include "Link.hpp"
+#include "../Utils.hpp"
 #include <vector>
 #include <map>
 #include <iostream>
-#include "../Utils.hpp"
+
+extern bool VerboseOutput;
+
+using namespace TaiyouConfig::Token;
 
 namespace TaiyouConfig::Linker
 {
 	LinkedTcfgUnit LinkUnits(std::vector<TcfgUnit> &units)
 	{
-		std::vector<Token::NamespaceDeclaration> allNamespaces;
-		//std::vector<Token::UnparsedKey> allGlobalyDefinedKeys;
+		std::vector<NamespaceDeclaration> allNamespaces;
+		//std::vector<UnparsedKey> allGlobalyDefinedKeys;
 		// Key: <type>:<name>
-		typedef std::map<std::string, Token::UnparsedKey> globalKeysMapType;
-		std::map<std::string, Token::UnparsedKey> allGlobalyDefinedKeys;
+		typedef std::map<std::string, UnparsedKey> globalKeysMapType;
+		std::map<std::string, UnparsedKey> allGlobalyDefinedKeys;
 
 		for (int i = 0; i < units.size(); i++)
 		{
 			// Run though every namespace inside the unit and merges namespaces if necessary
 			for (int i2 = 0; i2 < units[i].Namespaces.size(); i2++)
 			{
-				Token::NamespaceDeclaration declaration = units[i].Namespaces[i2];
+				NamespaceDeclaration declaration = units[i].Namespaces[i2];
 
 				// Check if allNamespaces already have a namespace with the same name
 				bool namespacesMerged = false;
@@ -31,7 +35,7 @@ namespace TaiyouConfig::Linker
 						// Merge the two namespaces togheder
 						for (int key = 0; key < declaration.InnerTokens.size(); key++)
 						{
-							Token::UnparsedKey currentKey = declaration.InnerTokens[key];
+							UnparsedKey currentKey = declaration.InnerTokens[key];
 
 							allNamespaces[ceira].InnerTokens.push_back(currentKey);
 						}
@@ -51,7 +55,7 @@ namespace TaiyouConfig::Linker
 			// Run through every key declared in GlobalNamespace
 			for (int i2 = 0; i2 < units[i].GlobalNamespace.size(); i2++)
 			{
-				Token::UnparsedKey key = units[i].GlobalNamespace[i2];
+				UnparsedKey key = units[i].GlobalNamespace[i2];
 				std::string keyName = key.Type + ":" + key.Name;
 
 				// Key not found, add to the list
@@ -77,30 +81,29 @@ namespace TaiyouConfig::Linker
 			returnUnit.GlobalKeys.push_back(it->second);
 		}
 
-#ifdef _DEBUG
-		std::cout << ">>Linker Finished" << std::endl << "GLOBAL keys:" << std::endl;
-
-		for (int i = 0; i < returnUnit.GlobalKeys.size(); i++)
+		if (VerboseOutput)
 		{
-			std::cout << "  " << ToString(returnUnit.GlobalKeys[i]) << std::endl;
-		}
+			std::cout << "Linker; Linker Finished" << std::endl << "GLOBAL keys:" << std::endl;
 
-		std::cout << std::endl;
-
-		for (int i = 0; i < returnUnit.Namespaces.size(); i++)
-		{
-			std::cout << returnUnit.Namespaces[i].Name << " keys:" << std::endl;
-
-			for (int i2 = 0; i2 < returnUnit.Namespaces[i].InnerTokens.size(); i2++)
+			for (int i = 0; i < returnUnit.GlobalKeys.size(); i++)
 			{
-				std::cout << "  " << ToString(returnUnit.Namespaces[i].InnerTokens[i2]) << std::endl;
+				std::cout << "  " << ToString(returnUnit.GlobalKeys[i]) << std::endl;
 			}
 
+			std::cout << std::endl;
+
+			for (int i = 0; i < returnUnit.Namespaces.size(); i++)
+			{
+				std::cout << returnUnit.Namespaces[i].Name << " keys:" << std::endl;
+
+				for (int i2 = 0; i2 < returnUnit.Namespaces[i].InnerTokens.size(); i2++)
+				{
+					std::cout << "  " << ToString(returnUnit.Namespaces[i].InnerTokens[i2]) << std::endl;
+				}
+
+			}
+			std::cout << std::endl;
 		}
-
-		std::cout << std::endl;
-
-#endif
 
 
 		return returnUnit;

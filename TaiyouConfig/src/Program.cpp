@@ -6,9 +6,15 @@
 
 using namespace TaiyouConfig;
 using std::filesystem::recursive_directory_iterator;
- 
+bool VerboseOutput = false;
+
 int main(int agrc, const char* argv[])
 {
+	// Always enable VerboseOutput in debug builds
+#ifdef _DEBUG
+	VerboseOutput = true;
+#endif
+
 	std::vector<std::string> inputFiles;
 	std::vector<TcfgUnit> compilationUnits;
 	std::string outputFileName = "./out.tcb";
@@ -28,6 +34,17 @@ int main(int agrc, const char* argv[])
 	{
 		throw std::runtime_error("Input file list not implemented yet.");
 	}
+
+
+	if (inputFiles.size() == 0)
+	{
+		std::cout << "STOP: No input files." << std::endl;
+		return -1;
+	}
+
+	if (VerboseOutput)
+		std::cout << "Input; " << inputFiles.size() << " input files" << std::endl;
+
 
 	for (int i = 0; i < inputFiles.size(); i++)
 	{

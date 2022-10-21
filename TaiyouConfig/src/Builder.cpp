@@ -26,7 +26,7 @@ namespace TaiyouConfig::Builder
 		std::ofstream stream(outputFileName, std::ios::out | std::ios::binary);
 		if (!stream)
 		{
-			std::cerr << "Could not open output file." << std::endl;
+			std::cerr << "Builder; Could not open output file." << std::endl;
 			return -1;
 		}
 
@@ -40,11 +40,11 @@ namespace TaiyouConfig::Builder
 
 		if (!stream.good())
 		{
-			std::cerr << "Could not write output file." << std::endl;
+			std::cerr << "Builder; Could not write output file." << std::endl;
 			return -1;
 		}
 
-		std::cerr << "Builder: --> \"" << outputFileName << "\"" << std::endl;
+		std::cerr << "-> \"" << outputFileName << "\"" << std::endl;
 
 		return 0;
 	}
