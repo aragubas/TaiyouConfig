@@ -16,9 +16,9 @@ void print_help()
 	std::cout << "TaiyouConfigCompiler (TCFG_C) v1.0.0 by Aragubas" << std::endl;
 	std::cout << "Builder file version: " << std::to_string(OutputFile_Version_Major) << "." << std::to_string(OutputFile_Version_Minor) << std::endl;
 
-	std::cout << "Usage: tcfg_c <file1.tcfg> <file2.tcfg> [...]" << std::endl;
+	std::cout << "Usage: tcfg_c <file1.tcfg> <file2.tcfg> [...] -out <output file path>" << std::endl;
 	std::cout << "If no arguments are provided, all .tcfg files in the current working directory and all subfolders will be used as input files" << std::endl;
-
+	std::cout << "  and the output file will be created in the current working directory with the name of \"out.tcb\"" << std::endl;
 }
 
 int main(int argc, const char* argv[])
