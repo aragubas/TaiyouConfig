@@ -10,11 +10,11 @@ namespace TaiyouConfig::Builder
 
 	int Build(TaiyouConfig::Linker::LinkedTcfgUnit linkedUnit[], const char* outputFileName);
 
-	inline void WriteTCBHeader(std::vector<char>* buffer);
+	void WriteTCBHeader(std::vector<char>& buffer);
 
-	inline void WriteGlobalNamespaceKeys(std::vector<char>* buffer, TaiyouConfig::Linker::LinkedTcfgUnit linkedUnit[]);
+	void WriteGlobalNamespaceKeys(std::vector<char>& buffer, TaiyouConfig::Linker::LinkedTcfgUnit linkedUnit[]);
 
-	inline void WriteNamespaces(std::vector<char>* buffer, TaiyouConfig::Linker::LinkedTcfgUnit linkedUnit[]);
+	void WriteNamespaces(std::vector<char>& buffer, TaiyouConfig::Linker::LinkedTcfgUnit linkedUnit[]);
 
-	inline void WriteKey(std::vector<char>* buffer, TaiyouConfig::Token::UnparsedKey key);
+	inline void WriteKey(std::vector<char>& buffer, TaiyouConfig::Token::UnparsedKey key);
 }

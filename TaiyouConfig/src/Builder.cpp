@@ -15,13 +15,13 @@ namespace TaiyouConfig::Builder
 
 		std::vector<char> fileBuffer;
 		// Write TCB header
-		WriteTCBHeader(&fileBuffer);
+		WriteTCBHeader(fileBuffer);
 		
 		// Write all global namespace keys
-		WriteGlobalNamespaceKeys(&fileBuffer, linkedUnit);
+		WriteGlobalNamespaceKeys(fileBuffer, linkedUnit);
 
 		// Write all namespaces		
-		WriteNamespaces(&fileBuffer, linkedUnit);
+		WriteNamespaces(fileBuffer, linkedUnit);
 
 		std::ofstream stream(outputFileName, std::ios::out | std::ios::binary);
 		if (!stream)
@@ -49,42 +49,42 @@ namespace TaiyouConfig::Builder
 		return 0;
 	}
 
-	inline void WriteKey(std::vector<char>* buffer, TaiyouConfig::Token::UnparsedKey key)
+	inline void WriteKey(std::vector<char>& buffer, TaiyouConfig::Token::UnparsedKey key)
 	{
 		// Key Type		
 		for (int ch = 0; ch < key.Type.size(); ch++)
 		{
-			buffer->push_back(key.Type[ch]);
+			buffer.push_back(key.Type[ch]);
 		}
-		buffer->push_back('\0');
+		buffer.push_back('\0');
 
 		// Key Name
 		for (int ch = 0; ch < key.Name.size(); ch++)
 		{
-			buffer->push_back(key.Name[ch]);
+			buffer.push_back(key.Name[ch]);
 		}
-		buffer->push_back('\0');
+		buffer.push_back('\0');
 
 		// Key Value
 		for (int ch = 0; ch < key.Value.size(); ch++)
 		{
-			buffer->push_back(key.Value[ch]);
+			buffer.push_back(key.Value[ch]);
 		}
-		buffer->push_back('\0');
+		buffer.push_back('\0');
 
 	}
 
-	inline void WriteGlobalNamespaceKeys(std::vector<char>* buffer, TaiyouConfig::Linker::LinkedTcfgUnit linkedUnit[])
+	void WriteGlobalNamespaceKeys(std::vector<char>& buffer, TaiyouConfig::Linker::LinkedTcfgUnit linkedUnit[])
 	{
 		// Control Keyword: Global Namespace Keys
-		buffer->push_back(KEYWORD_GLOBALNAMESPACE);
+		buffer.push_back(KEYWORD_GLOBALNAMESPACE);
 
 		for (int i = 0; i < linkedUnit->GlobalKeys.size(); i++)
 		{
 			TaiyouConfig::Token::UnparsedKey key = linkedUnit->GlobalKeys[i];
 
 			// Control Keyword: Declaring Key
-			buffer->push_back(KEYWORD_DECLARE_KEY);
+			buffer.push_back(KEYWORD_DECLARE_KEY);
 
 			WriteKey(buffer, key);
 		}
@@ -92,10 +92,10 @@ namespace TaiyouConfig::Builder
 
 	}
 
-	inline void WriteNamespaces(std::vector<char>* buffer, TaiyouConfig::Linker::LinkedTcfgUnit linkedUnit[])
+	void WriteNamespaces(std::vector<char>& buffer, TaiyouConfig::Linker::LinkedTcfgUnit linkedUnit[])
 	{
 		// Control Keyword: Declaring Namespaces
-		buffer->push_back(KEYWORD_DECLARE_NAMESPACE);
+		buffer.push_back(KEYWORD_DECLARE_NAMESPACE);
 
 		for (int i = 0; i < linkedUnit->Namespaces.size(); i++)
 		{
@@ -104,9 +104,9 @@ namespace TaiyouConfig::Builder
 			// Write namespace header
 			for (int ch = 0; ch < namespaceDeclaration.Name.size(); ch++)
 			{
-				buffer->push_back(namespaceDeclaration.Name[ch]);
+				buffer.push_back(namespaceDeclaration.Name[ch]);
 			}
-			buffer->push_back('\0');
+			buffer.push_back('\0');
 
 			// Write namespace keys
 			for (int keyIndex = 0; keyIndex < namespaceDeclaration.InnerTokens.size(); keyIndex++)
@@ -118,15 +118,15 @@ namespace TaiyouConfig::Builder
 
 	}
 
-	inline void WriteTCBHeader(std::vector<char>* buffer)
+	void WriteTCBHeader(std::vector<char>& buffer)
 	{
 		// Magic Number 
-		buffer->push_back('T');
-		buffer->push_back('C');
-		buffer->push_back('B');
+		buffer.push_back('T');
+		buffer.push_back('C');
+		buffer.push_back('B');
 
 		// Version
-		buffer->push_back(1); // Major Revision
-		buffer->push_back(0); // Minor Revision
+		buffer.push_back(1); // Major Revision
+		buffer.push_back(0); // Minor Revision
 	}
 }
