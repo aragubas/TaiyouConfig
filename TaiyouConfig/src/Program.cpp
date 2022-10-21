@@ -13,8 +13,10 @@ uint8_t OutputFile_Version_Minor = 0;
 
 void print_help()
 {
-	std::cout << "TaiyouConfigCompiler (TCFG_C) v1.0.0 by Aragubas" << std::endl;
+	std::cout << "TaiyouConfigCompiler (tcfg_c) v1.0.0 by Aragubas" << std::endl;
 	std::cout << "Builder file version: " << std::to_string(OutputFile_Version_Major) << "." << std::to_string(OutputFile_Version_Minor) << std::endl;
+
+	std::cout << std::endl;
 
 	std::cout << "Usage: tcfg_c <file1.tcfg> <file2.tcfg> [...] -out <output file path>" << std::endl;
 	std::cout << "If no arguments are provided, all .tcfg files in the current working directory and all subfolders will be used as input files" << std::endl;
@@ -33,8 +35,12 @@ int main(int argc, const char* argv[])
 	std::string outputFileName = "./out.tcb";
 
 	// No arguments provided, automatic mode
-	if (argc == 1)
+	if (argc == 0 || argc == 1)
 	{
+		if (argc == 0)
+		{
+			std::cout << "WARNING: The first argument should contain the working directory of this executable." << std::endl << "  This may result in unexpected behaviour when parsing arguments." << std::endl;
+		}
 		for (const std::filesystem::directory_entry& file : recursive_directory_iterator("./"))
 		{
 			if (file.path().extension() == ".tcfg")
@@ -50,6 +56,10 @@ int main(int argc, const char* argv[])
 			print_help();
 			return 0;
 		}
+	}
+	else
+	{
+		
 	}
 
 
