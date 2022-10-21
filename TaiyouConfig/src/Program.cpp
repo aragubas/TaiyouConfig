@@ -26,6 +26,7 @@ void print_help()
 
 	std::cout << "-out <file path>          Output file path" << std::endl;
 	std::cout << "-verbose                  Enables verbose output" << std::endl;
+	std::cout << "-list                     Print all input files" << std::endl;
 }
 
 int main(int argc, char* argv[])
@@ -38,6 +39,7 @@ int main(int argc, char* argv[])
 	std::vector<std::string> inputFiles;
 	std::vector<TcfgUnit> compilationUnits;
 	std::string outputFileName = "";
+	bool listInputFiles = false;
 
 	// No arguments provided, automatic mode
 	if (argc == 0 || argc == 1)
@@ -94,6 +96,7 @@ int main(int argc, char* argv[])
 				else
 				{
 					std::cout << "Error; Invalid switch \"" << argument << "\"" << std::endl;
+					std::cout << "Try --help (or -help, /? and help) to see a list of available arguments and switches." << std::endl;
 					return -1;
 				}
 			}
@@ -128,10 +131,9 @@ int main(int argc, char* argv[])
 		
 	}
 
-
 	if (inputFiles.size() == 0)
 	{
-		std::cout << "STOP: No input files." << std::endl;
+		std::cout << "Error; No input files." << std::endl;
 		return -1;
 	}
 

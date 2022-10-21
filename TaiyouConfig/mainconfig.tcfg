@@ -1,3 +1,22 @@
+# TaiyouConfig (1.0.0) Source File
+#
+# Syntax:
+#   When declaring a key:
+#     type:name=value
+#    
+#   When declaring a namespace:
+#     $namespace <namespace_end>
+#     $end <- Ends the namespace declaration
+#
+#   Keywords:
+#      '$' declares a block. A block is a collection of keys.
+#      '@' reference an external file or other TaiyouConfig Source File
+#   
+#   Comments lines starts with a '#', but can also be used at the end of any statement
+#
+#
+# 2022 - Aragubas
+
 string:DataDir=./Data/
 
 $namespace Graphics
