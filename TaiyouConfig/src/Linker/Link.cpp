@@ -48,7 +48,7 @@ namespace TaiyouConfig::Linker
 				}
 			}
 
-			// Run though every key declared in GlobalNamespace
+			// Run through every key declared in GlobalNamespace
 			for (int i2 = 0; i2 < units[i].GlobalNamespace.size(); i2++)
 			{
 				Token::UnparsedKey key = units[i].GlobalNamespace[i2];
@@ -78,7 +78,28 @@ namespace TaiyouConfig::Linker
 		}
 
 #ifdef _DEBUG
-		std::cout << ">>Linker Finished" << std::endl;
+		std::cout << ">>Linker Finished" << std::endl << "GLOBAL keys:" << std::endl;
+
+		for (int i = 0; i < returnUnit.GlobalKeys.size(); i++)
+		{
+			std::cout << "  " << ToString(returnUnit.GlobalKeys[i]) << std::endl;
+		}
+
+		std::cout << std::endl;
+
+		for (int i = 0; i < returnUnit.Namespaces.size(); i++)
+		{
+			std::cout << returnUnit.Namespaces[i].Name << " keys:" << std::endl;
+
+			for (int i2 = 0; i2 < returnUnit.Namespaces[i].InnerTokens.size(); i2++)
+			{
+				std::cout << "  " << ToString(returnUnit.Namespaces[i].InnerTokens[i2]) << std::endl;
+			}
+
+		}
+
+		std::cout << std::endl;
+
 #endif
 
 

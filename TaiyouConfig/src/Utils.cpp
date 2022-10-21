@@ -88,22 +88,9 @@ namespace TaiyouConfig
 					{
 						if (blockType == "end")
 						{
-#ifdef _DEBUG
-							std::string name = "Unknown Block";
-
-							if (namespaceBlockLatch)
-							{
-								name = "Namespace";
-							}
-
-							std::cout << "->End " << name << std::endl;
-#endif
 							if (namespaceBlockLatch)
 							{
 								namespaces[namespaces.size() - 1].InnerTokens = blockBuffer;
-#ifdef _DEBUG
-								std::cout << "||Assigned " << blockBuffer.size() << " tokens to Namespace \"" + namespaces[namespaces.size() - 1].Name + "\"" << std::endl;
-#endif
 								// Reset state
 								blockBuffer.clear();
 								currentNamespace = "GLOBAL";
@@ -137,15 +124,9 @@ namespace TaiyouConfig
 							namespaceBlockLatch = true;
 							
 							namespaces.push_back(NamespaceDeclaration(blockValue.c_str()));
-#ifdef _DEBUG
-							std::cout << "->Namespace \"" << blockValue << "\"" << std::endl;
-#endif
 						} else
 						{
 							// TODO; Throw an error: Invalid block type
-#ifdef _DEBUG
-							std::cout << ">>Error: Invalid block type \"" << blockType << "\"" << std::endl;
-#endif
 						}
 						
 
@@ -200,17 +181,11 @@ namespace TaiyouConfig
 					if (currentNamespace == "GLOBAL")
 					{
 						globalNamespace.push_back(newKey);
-#ifdef _DEBUG
-						std::cout << "Key: " << ToString(newKey) << "; GLOBAL" << std::endl;
-#endif
 					}
 					else
 					{
 						// TODO: Assign token to currrent namespace					
 						blockBuffer.push_back(newKey);
-#ifdef _DEBUG
-						std::cout << "  Key: "<< ToString(newKey) << "; " << currentNamespace << std::endl;
-#endif
 					}
 
 
@@ -232,29 +207,14 @@ namespace TaiyouConfig
 		returnUnit.Namespaces = namespaces;
 		returnUnit.GlobalNamespace = globalNamespace;
 
-#ifdef _DEBUG
-		if (blockBuffer.size() != 0)
-		{
-			std::cout << "WARNING: BlockBuffer is not empty, probably caused by a unclosed block" << std::endl;
-		}
-
-		std::cout << std::endl;
-		std::cout << ">>Tokenization Finished" << std::endl;
-		std::cout << "Found " << globalNamespace.size() << " keys in GLOBAL namespace" << std::endl;
-		std::cout << "Found " << namespaces.size() << " namespace declarations" << std::endl << std::endl;
-#endif
-
-
 		return returnUnit;
 	}
 
-#ifdef _DEBUG
 	// Converts UnparsedKey to human-readable string
-	std::string ToString(Token::UnparsedKey unparsedKey)
+	std::string ToString(Token::UnparsedKey& unparsedKey)
 	{
 		return "\"" + unparsedKey.Type + ":" + unparsedKey.Name + "=" + unparsedKey.Value + "\"";
 	}
-#endif
 
 }
 

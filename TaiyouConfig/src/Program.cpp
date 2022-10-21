@@ -2,7 +2,7 @@
 #include <filesystem>
 #include "Utils.hpp"
 #include "Linker/Link.hpp"
-#include "Builder.h"
+#include "Builder.hpp"
 
 using namespace TaiyouConfig;
 using std::filesystem::recursive_directory_iterator;

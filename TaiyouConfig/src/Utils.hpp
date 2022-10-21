@@ -16,5 +16,5 @@ namespace TaiyouConfig
 	// Compiles a TCFG file from source
 	TcfgUnit TokenizeTcfg(std::string source);
 
-	std::string ToString(Token::UnparsedKey unparsedKey);
+	std::string ToString(Token::UnparsedKey& unparsedKey);
 }

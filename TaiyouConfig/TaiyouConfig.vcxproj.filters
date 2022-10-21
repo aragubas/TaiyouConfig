@@ -50,7 +50,7 @@
     <ClInclude Include="src\Linker\LinkedTcfgUnit.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Builder.h">
+    <ClInclude Include="src\Builder.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
