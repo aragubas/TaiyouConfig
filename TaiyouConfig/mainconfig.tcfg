@@ -5,7 +5,7 @@
 #     type:name=value
 #    
 #   When declaring a namespace:
-#     $namespace <namespace_end>
+#     $namespace <namespace_name>
 #     $end <- Ends the namespace declaration
 #
 #   Keywords:
