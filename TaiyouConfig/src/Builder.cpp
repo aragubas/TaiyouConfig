@@ -53,9 +53,6 @@ namespace TaiyouConfig::Builder
 
 	inline void WriteKey(std::vector<char>& buffer, TaiyouConfig::Token::UnparsedKey key)
 	{
-		// Control Keyword: Declaring Key
-		buffer.push_back(KEYWORD_DECLARE_KEY);
-
 		// Key Type		
 		for (int ch = 0; ch < key.Type.size(); ch++)
 		{
@@ -88,6 +85,9 @@ namespace TaiyouConfig::Builder
 		{
 			TaiyouConfig::Token::UnparsedKey key = linkedUnit->GlobalKeys[i];
 
+			// Control Keyword: Declaring Key
+			buffer.push_back(KEYWORD_DECLARE_KEY);
+
 			WriteKey(buffer, key);
 		}
 
@@ -113,6 +113,12 @@ namespace TaiyouConfig::Builder
 			// Write namespace keys
 			for (int keyIndex = 0; keyIndex < namespaceDeclaration.InnerTokens.size(); keyIndex++)
 			{
+				// Only write declaring key control keyword if not writting the first key in the namespace
+				if (keyIndex != 0) 
+				{
+					// Control Keyword: Declaring Key
+					buffer.push_back(KEYWORD_DECLARE_KEY);
+				}
 				WriteKey(buffer, namespaceDeclaration.InnerTokens[keyIndex]);
 			}
 
