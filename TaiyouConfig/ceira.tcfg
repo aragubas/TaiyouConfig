@@ -22,3 +22,7 @@ string:AudioDevice=Eletreto
 $namespace Graphics
 	screenResolution:FullscreenResolution=1366x768
 $end
+
+$namespace Multiplayer
+	bool:VoiceChatEnabled=false
+$end

@@ -53,6 +53,9 @@ namespace TaiyouConfig::Builder
 
 	inline void WriteKey(std::vector<char>& buffer, TaiyouConfig::Token::UnparsedKey key)
 	{
+		// Control Keyword: Declaring Key
+		buffer.push_back(KEYWORD_DECLARE_KEY);
+
 		// Key Type		
 		for (int ch = 0; ch < key.Type.size(); ch++)
 		{
@@ -85,9 +88,6 @@ namespace TaiyouConfig::Builder
 		{
 			TaiyouConfig::Token::UnparsedKey key = linkedUnit->GlobalKeys[i];
 
-			// Control Keyword: Declaring Key
-			buffer.push_back(KEYWORD_DECLARE_KEY);
-
 			WriteKey(buffer, key);
 		}
 
@@ -96,11 +96,11 @@ namespace TaiyouConfig::Builder
 
 	void WriteNamespaces(std::vector<char>& buffer, TaiyouConfig::Linker::LinkedTcfgUnit linkedUnit[])
 	{
-		// Control Keyword: Declaring Namespaces
-		buffer.push_back(KEYWORD_DECLARE_NAMESPACE);
-
 		for (int i = 0; i < linkedUnit->Namespaces.size(); i++)
 		{
+			// Control Keyword: Declaring Namespaces
+			buffer.push_back(KEYWORD_DECLARE_NAMESPACE);
+
 			TaiyouConfig::Token::NamespaceDeclaration namespaceDeclaration = linkedUnit->Namespaces[i];
 			
 			// Write namespace header
