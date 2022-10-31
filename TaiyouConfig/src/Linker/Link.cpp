@@ -79,12 +79,10 @@ namespace TaiyouConfig::Linker
 			for (int i2 = 0; i2 < units[i].GlobalNamespace.size(); i2++)
 			{
 				UnparsedKey key = units[i].GlobalNamespace[i2];
-				std::string keyName = key.Type + ":" + key.Name;
-
 				// Key not found, add to the list
-				if (allGlobalyDefinedKeys.find(keyName) == allGlobalyDefinedKeys.end())
+				if (allGlobalyDefinedKeys.find(key.Name) == allGlobalyDefinedKeys.end())
 				{
-					allGlobalyDefinedKeys[keyName] = key;				
+					allGlobalyDefinedKeys[key.Name] = key;
 				}
 				else
 				{

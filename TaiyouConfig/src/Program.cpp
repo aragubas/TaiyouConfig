@@ -18,12 +18,15 @@ void print_help()
 
 	std::cout << std::endl;
 
-	std::cout << "Usage: tcfg_c <file1.tcfg> <file2.tcfg> [...] -out <output file path>" << std::endl;
+	std::cout << "Usage: tcfg_c file1.tcfg file2.tcfg [...] -out <output file path>" << std::endl;
+	std::cout << "You can also: tcfg_c -src <source path> file1.tcfg file2.cfg [...] -out <output file path>" << std::endl;
+	std::cout << "Input files specified directly must be in the current working directory" << std::endl;
 	std::cout << "If no arguments are provided, all .tcfg files in the current working directory and all subfolders will be used as input files" << std::endl;
 	std::cout << "  and the output file will be created in the current working directory with the name of \"out.tcb\"" << std::endl;
 
 	std::cout << std::endl;
 
+	std::cout << "-src <path>               Source path" << std::endl;
 	std::cout << "-out <file path>          Output file path" << std::endl;
 	std::cout << "-verbose                  Enables verbose output" << std::endl;
 	std::cout << "-list                     Print all input files" << std::endl;
@@ -38,7 +41,7 @@ int main(int argc, char* argv[])
 
 	std::vector<std::string> inputFiles;
 	std::vector<TcfgUnit> compilationUnits;
-	std::string outputFileName = "";
+	std::string outputFileName = "./out.tcb";
 	bool listInputFiles = false;
 
 	// No arguments provided, automatic mode
@@ -56,8 +59,6 @@ int main(int argc, char* argv[])
 				inputFiles.push_back(file.path().generic_string());
 			}
 		}
-
-		outputFileName = "./out.tcb";
 	}
 	else if (argc == 2) // Only one argument was provided
 	{
@@ -70,7 +71,10 @@ int main(int argc, char* argv[])
 	else // More than two arguments provided
 	{
 		bool outputSwitch = false;
+		bool sourcePathSwitch = false;
 		bool inputFile = false;
+		bool outputPathDefined = false;
+		std::string sourcePathDir;
 
 		// ceira.tcfg -out ceira.out
 		for (int i = 1; i < argc; i++)
@@ -93,6 +97,13 @@ int main(int argc, char* argv[])
 
 					continue;
 				}
+				else if (argument == "-src")
+				{
+					sourcePathSwitch = true;
+					inputFile = false;
+
+					continue;
+				}
 				else
 				{
 					std::cout << "Error; Invalid switch \"" << argument << "\"" << std::endl;
@@ -102,7 +113,7 @@ int main(int argc, char* argv[])
 			}
 			else
 			{
-				if (!outputSwitch)
+				if (!outputSwitch && !sourcePathSwitch)
 					inputFile = true;
 			}
 
@@ -112,8 +123,9 @@ int main(int argc, char* argv[])
 			}
 			else if (outputSwitch)
 			{
-				if (outputFileName == "")
+				if (!outputPathDefined)
 				{
+					outputPathDefined = true;
 					outputFileName = argument;
 
 					outputSwitch = false;
@@ -123,18 +135,40 @@ int main(int argc, char* argv[])
 					std::cout << "Error; Output file defined multiple times." << std::endl;
 					return -1;
 				}
+
+			}
+			else if (sourcePathSwitch)
+			{
+				if (sourcePathDir != "")
+				{
+					std::cout << "Error; Source path defined multiple times." << std::endl;
+					return -1;
+				}
+				
+				sourcePathDir = argument;
+
+				sourcePathSwitch = false;
 			}
 
 		}
 
-
+		if (sourcePathDir != "")
+		{
+			for (const std::filesystem::directory_entry& file : recursive_directory_iterator(sourcePathDir))
+			{
+				if (file.path().extension() == ".tcfg")
+				{
+					inputFiles.push_back(file.path().generic_string());
+				}
+			}
+		}
 		
 	}
-
+	
 	if (inputFiles.size() == 0)
 	{
-		std::cout << "Error; No input files." << std::endl;
-		return -1;
+		std::cout << "Error; Nothing to do, no input files found." << std::endl;
+		return 0;
 	}
 
 	if (VerboseOutput)
