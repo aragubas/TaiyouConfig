@@ -29,11 +29,11 @@ namespace TaiyouConfig
 		}
 		cfgFile.close();
 
-		const char BOM[] { (char)0xEF, (char)0xBB, (char)0xBF };
+		const char BOM[] { (char)0xEF, (char)0xBB, (char)0xBF, (char)0x00 };
 		
-		if (entireCfgFile.compare(0, 3, BOM))
+		if (entireCfgFile.starts_with(BOM))
 		{
-			entireCfgFile = entireCfgFile.erase(0, 2);
+			entireCfgFile = entireCfgFile.erase(0, 3);
 		}
 
 		return entireCfgFile;
