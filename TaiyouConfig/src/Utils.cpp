@@ -1,6 +1,8 @@
 #include "Utils.hpp"
 #include <filesystem>
 #include <fstream>
+#include <locale>
+#include <codecvt>
 
 using namespace TaiyouConfig::Token;
 
@@ -11,8 +13,8 @@ namespace TaiyouConfig
 	{
 		std::fstream cfgFile;
 		std::string entireCfgFile = "";
-		cfgFile.open(path, std::ios::in);
-		
+		cfgFile.open(path, std::ios::in);		
+
 		if (cfgFile.fail())
 		{
 			// TODO: Throw a custom error
@@ -25,8 +27,14 @@ namespace TaiyouConfig
 		{
 			entireCfgFile += line + "\n";
 		}
-
 		cfgFile.close();
+
+		const char BOM[] { (char)0xEF, (char)0xBB, (char)0xBF };
+		
+		if (entireCfgFile.compare(0, 3, BOM))
+		{
+			entireCfgFile = entireCfgFile.erase(0, 2);
+		}
 
 		return entireCfgFile;
 	}
@@ -176,6 +184,9 @@ namespace TaiyouConfig
 				{
 					keyDepth = 0;
 
+					NormalizeString(keyType);
+					NormalizeString(keyName);
+					NormalizeString(keyValue);
 					UnparsedKey newKey = UnparsedKey(keyType.c_str(), keyName.c_str(), keyValue.c_str());
 
 					if (currentNamespace == "GLOBAL")
@@ -208,6 +219,11 @@ namespace TaiyouConfig
 		returnUnit.GlobalNamespace = globalNamespace;
 
 		return returnUnit;
+	}
+
+	void NormalizeString(std::string& source)
+	{
+
 	}
 
 	// Converts UnparsedKey to human-readable string

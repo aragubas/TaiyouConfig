@@ -35,9 +35,9 @@ void print_help()
 int main(int argc, char* argv[])
 {
 	// Always enable VerboseOutput in debug builds
-//#ifdef _DEBUG
-//	VerboseOutput = true;
-//#endif
+#ifdef _DEBUG
+	VerboseOutput = true;
+#endif
 
 	std::vector<std::string> inputFiles;
 	std::vector<TcfgUnit> compilationUnits;
@@ -183,7 +183,5 @@ int main(int argc, char* argv[])
 
 	TaiyouConfig::Linker::LinkedTcfgUnit LinkedUnits = Linker::LinkUnits(compilationUnits);
 
-	int buildResult = TaiyouConfig::Builder::Build(&LinkedUnits, outputFileName.c_str());
-
-	return 0;
+	return TaiyouConfig::Builder::Build(&LinkedUnits, outputFileName.c_str());
 }
