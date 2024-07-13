@@ -1,0 +1,21 @@
+# Example file for video game settings mock up
+
+# All settings in the block below will be in the Graphics namespace
+
+string User.Email=some@one.com
+
+@Graphics
+    bool VSync=true
+    Resolution  DisplayResolution=1024x720
+    QualityScale ViewDistance=Low
+    QualityScale LODQuality=High
+    QualityScale ShadowsDetail=High
+    uint DisplayIndex=0
+@end
+
+string Character.Name=Checka#r1234
+
+# You can also declare them inline
+AudioVolume Sound.MusicVolume=75%
+AudioVolume Sound.SFXVolume=95%
+bool Sound.3DAudio=true
